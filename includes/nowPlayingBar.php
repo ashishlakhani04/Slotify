@@ -22,6 +22,11 @@
 		setTrack(currentPlaylist[0],currentPlaylist,false);
 		updateVolumeProgressBar(audioElement.audio);
 
+		$("#nowPlayingBarContainer").on("mousedown touchstart mousemove touchmove",function(e){
+				e.preventDefault();
+		});
+
+
 
 		$(".playbackBar .progressBar").mousedown(function(){
 			mouseDown = true;
@@ -79,9 +84,30 @@
 
 	}
 
+	function nextSong(){
+
+		if(repeat){
+			audioElement.setTime(0);
+			playSong();
+			return;
+		}
+
+		if(currentIndex == currentPlaylist.length - 1){
+			currentIndex = 0;
+		}else{
+			currentIndex++;
+		}
+		var trackToPlay = currentPlaylist[currentIndex];
+		setTrack(trackToPlay,currentPlaylist,true);
+	}
+
 	function setTrack(trackId,newPlaylist,play){
 
+		currentIndex = currentPlaylist.indexOf(trackId);
+		pauseSong();
+
 		$.post("includes/handlers/ajax/getSongJson.php",{songId:trackId},function(data){
+			
 			var track = JSON.parse(data);
 
 			$(".trackName span").text(track.title);
@@ -182,7 +208,7 @@
 						<img src="assets/images/icons/pause.png" alt="Pause">
 
 					</button>
-					<button class="controlButton next" title="Next button">
+					<button class="controlButton next" title="Next button" onclick="nextSong()">
 						
 						<img src="assets/images/icons/next.png" alt="Next">
 
