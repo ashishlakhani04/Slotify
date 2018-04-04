@@ -216,11 +216,12 @@
 			});
 
 			audioElement.setTrack(track);
+			if(play){
+				playSong();
+			}
 		});
 
-		if(play){
-			audioElement.play();
-		}
+		
 		
 
 	}
