@@ -9,7 +9,10 @@ var shuffle = false;
 var userLoggedIn;
 
 
+
 function openPage(url){
+
+	
 
 	if(url.indexOf("?") == -1){
 		url = url + "?";
