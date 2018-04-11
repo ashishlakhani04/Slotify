@@ -18,7 +18,7 @@ function openPage(url){
 		url = url + "?";
 	}
 
-	var encodedUrl = encodeURI(url + "&userLoggedIn" + userLoggedIn);
+	var encodedUrl = encodeURI(url + "&userLoggedIn=" + userLoggedIn);
 	$("#mainContent").load(encodedUrl);
 	$("body").scrollTop(0);
 	history.pushState(null,null,url);
@@ -26,10 +26,16 @@ function openPage(url){
 
 function createPlaylist(){
 
-	var alert = prompt("Please enter the name of your playlist!");
-	if(alert != null){
+	var popup = prompt("Please enter the name of your playlist!");
+	if(popup != null){
 
-		$.post("includes/handlers/ajax/createPlaylist.php",{name:alert,username:userLoggedIn}).done(function(){
+		$.post("includes/handlers/ajax/createPlaylist.php",{name:popup,username:userLoggedIn}).done(function(error){
+			
+			if(error != ""){
+				alert(error);
+				return;
+			}
+
 			// do something when ajax returns
 			openPage("yourMusic.php");
 		});
